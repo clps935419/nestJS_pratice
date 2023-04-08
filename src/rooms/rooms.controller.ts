@@ -5,12 +5,11 @@ import { RoomsService } from './rooms.service';
 //nest g co產生controller
 @Controller('rooms')
 export class RoomsController {
-
-  constructor(private readonly roomsService:RoomsService){}
+  constructor(private readonly roomsService: RoomsService) {}
 
   @Get()
   findAll2() {
-    return this.roomsService.findAll()
+    return this.roomsService.findAll();
     // return 'return all rooms--';
   }
   //nest 路由 /rooms/nest
@@ -32,8 +31,9 @@ export class RoomsController {
   // }
   //另一種動態參數寫法(解構)
   @Get(':id')
-  findOne2(@Param('id') id: string, @Res() response) {
-    return this.roomsService.findOne(id)
+  findOne2(@Param('id') id: string) {
+    console.log('idddd---', id);
+    return this.roomsService.findOne(id);
     // response.status(200).send(`return params***- ${id}`);
     // console.log(id);
   }
@@ -48,11 +48,14 @@ export class RoomsController {
   // }
   @Patch(':id')
   updateRoom(@Param('id') id: string, @Body() body) {
-    return this.roomsService.updateData(id,body);
+    return this.roomsService.updateData(id, body);
   }
   @Delete(':id')
   delRoom(@Param('id') id: string) {
     return this.roomsService.delOne(id);
-
+  }
+  @Delete()
+  delAllRoom() {
+    return this.roomsService.delAll();
   }
 }

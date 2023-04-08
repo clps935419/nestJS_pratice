@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Rooms } from './entities/rooms.entities';
 
 @Injectable()
@@ -13,7 +13,13 @@ export class RoomsService {
     return this.rooms;
   }
   findOne(id:string){
-    return this.rooms.find(item=>item.id === +id)
+    // console.log('id---**', id);
+    const tmpRoomArr  = this.rooms.find((item) => item.id === +id);
+    console.log('id***',id,tmpRoomArr)
+    if (!!!tmpRoomArr) {
+      throw new NotFoundException("not found rooms")
+    }
+    return tmpRoomArr;
   }
   createData(obj:any){
     this.rooms.push(obj);
@@ -22,8 +28,9 @@ export class RoomsService {
   updateData(id:string,content:any){
     return this.rooms.map(item=>{
       if(item.id === +id){
-        item.name = content;
+        item.name = content.name;
       }
+      return item;
     })
   }
   delAll(){
